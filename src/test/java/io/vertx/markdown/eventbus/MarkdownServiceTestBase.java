@@ -1,21 +1,28 @@
 package io.vertx.markdown.eventbus;
 
-import io.vertx.test.core.VertxTestBase;
+import io.vertx.core.Vertx;
+import io.vertx.ext.unit.TestContext;
+import io.vertx.ext.unit.junit.VertxUnitRunner;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.runner.RunWith;
 
-import java.util.concurrent.CountDownLatch;
+@RunWith(VertxUnitRunner.class)
+public abstract class MarkdownServiceTestBase {
 
-public class MarkdownServiceTestBase extends VertxTestBase {
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		CountDownLatch latch = new CountDownLatch(1);
-		vertx.deployVerticle("io.vertx.markdown.MarkdownServiceVerticle", handler -> {
-			if (handler.cause() != null) {
-				handler.cause().printStackTrace();
-			}
-			assertTrue(handler.succeeded());
-			latch.countDown();
-		});
-		awaitLatch(latch);
+	protected Vertx vertx;
+
+	@Before
+	public void setUp(TestContext context) throws Exception {
+		vertx = Vertx.vertx();
+		vertx.deployVerticle("io.vertx.markdown.MarkdownServiceVerticle", context.async().handler());
+	}
+
+
+	@After
+	public void tearDown(TestContext context) throws Exception {
+		if (vertx != null) {
+			vertx.close(context.async().handler());
+		}
 	}
 }
