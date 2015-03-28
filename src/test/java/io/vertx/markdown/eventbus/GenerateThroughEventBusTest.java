@@ -41,8 +41,6 @@ public class GenerateThroughEventBusTest extends MarkdownServiceTestBase {
 			context.assertTrue(ar.failed());
 			Throwable t = ar.cause();
 			context.assertTrue(t instanceof ReplyException);
-			ReplyException re = (ReplyException) t;
-			Throwable cause = re.getCause();
 
 			// Those assertions don't work
 			// but before the test was bugged : doing 2 countdowns instead of await, so it may have been the case previously
