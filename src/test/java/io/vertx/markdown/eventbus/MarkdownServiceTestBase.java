@@ -15,14 +15,14 @@ public abstract class MarkdownServiceTestBase {
 	@Before
 	public void setUp(TestContext context) throws Exception {
 		vertx = Vertx.vertx();
-		vertx.deployVerticle("io.vertx.markdown.MarkdownServiceVerticle", context.async().handler());
+		vertx.deployVerticle("io.vertx.markdown.MarkdownServiceVerticle", context.asyncAssertSuccess());
 	}
-
 
 	@After
 	public void tearDown(TestContext context) throws Exception {
 		if (vertx != null) {
-			vertx.close(context.async().handler());
+			vertx.close(context.asyncAssertSuccess());
+			vertx = null;
 		}
 	}
 }

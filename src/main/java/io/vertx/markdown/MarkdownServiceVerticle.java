@@ -5,13 +5,16 @@ import io.vertx.core.Future;
 import io.vertx.serviceproxy.ProxyHelper;
 
 public class MarkdownServiceVerticle extends AbstractVerticle {
+
+	public final static String ADDRESS = "vertx.markdown";
+
 	private MarkdownService service;
 
 	@Override
 	public void start(Future<Void> startFuture) throws Exception {
 		service = MarkdownService.create(config());
-        String address = config().getString("address", "vertx.markdown");
-        ProxyHelper.registerService(MarkdownService.class, vertx, service, address);
+		String address = config().getString("address", ADDRESS);
+		ProxyHelper.registerService(MarkdownService.class, vertx, service, address);
 		startFuture.complete();
 	}
 
