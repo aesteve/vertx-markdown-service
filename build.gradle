@@ -2,27 +2,23 @@ plugins {
     id 'java'
     id 'eclipse'
     id 'idea'
-    id 'com.github.johnrengelman.shadow' version '1.2.1'
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
-    maven { url 'http://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
 dependencies {
     // vertx
-    compile 'io.vertx:vertx-core:3.0.0-SNAPSHOT'
-	compile 'io.vertx:vertx-service-proxy:3.0.0-SNAPSHOT'
-	compile 'io.vertx:vertx-codegen:3.0.0-SNAPSHOT'
+    compile 'io.vertx:vertx-core:3.0.0'
+	compile 'io.vertx:vertx-service-proxy:3.0.0'
+	compile 'io.vertx:vertx-codegen:3.0.0'
 	
 	// Pegdown implementation
 	compile 'org.pegdown:pegdown:1.5.0'
     
     // tests
-    testCompile group: 'io.vertx', name: 'vertx-core', version: '3.0.0-SNAPSHOT', classifier: 'tests'
-    testCompile group: 'io.vertx', name: 'vertx-unit', version: '3.0.0-SNAPSHOT'
+    testCompile group: 'io.vertx', name: 'vertx-unit', version: '3.0.0'
     testCompile 'junit:junit:4.12'
 }
 
@@ -49,26 +45,10 @@ task generateServiceProxy(type: JavaCompile, description: 'Generates EBServicePr
 
 compileJava.dependsOn generateServiceProxy
 
-shadowJar {
-    classifier = 'fatJar'
-    manifest {
-        attributes 'Main-Class': 'io.vertx.core.Starter'
-        attributes 'Main-Verticle': 'groovy:MarkdownServiceVerticle'
-    }
-    mergeServiceFiles {
-        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
-    }
-    dependencies {
-        exclude(dependency('io.vertx:codegen'))
-        exclude(dependency('junit:junit'))
-        exclude(dependency('org.mvel:mvel2'))
-    }
-}
-
 clean {
 	delete += generatedSrcDir
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+    gradleVersion = '2.4'
 }
