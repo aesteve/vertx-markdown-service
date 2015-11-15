@@ -4,21 +4,23 @@ plugins {
     id 'idea'
 }
 
+def vertxVersion = '3.1.0'
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     // vertx
-    compile 'io.vertx:vertx-core:3.0.0'
-	compile 'io.vertx:vertx-service-proxy:3.0.0'
-	compile 'io.vertx:vertx-codegen:3.0.0'
+    compile "io.vertx:vertx-core:$vertxVersion"
+	compile "io.vertx:vertx-service-proxy:$vertxVersion"
+	compile "io.vertx:vertx-codegen:$vertxVersion"
 	
 	// Pegdown implementation
 	compile 'org.pegdown:pegdown:1.5.0'
     
     // tests
-    testCompile group: 'io.vertx', name: 'vertx-unit', version: '3.0.0'
+    testCompile group: 'io.vertx', name: 'vertx-unit', version: vertxVersion
     testCompile 'junit:junit:4.12'
 }
 
@@ -50,5 +52,5 @@ clean {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.4'
+    gradleVersion = '2.8'
 }
